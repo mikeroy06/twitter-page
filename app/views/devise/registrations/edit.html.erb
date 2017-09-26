@@ -5,11 +5,14 @@
 
   
 <div class="form-group">
-  <%= f.email_field :name, placeholder: "Enter your email address", class: "form-control" %>
-</div>
+  
 
   <div class="form-group">
   <%= f.text_field :name, placeholder: "Enter your Name", class: "form-control" %>
+</div>
+
+<div class="form-group">
+<%= f.email_field :name, placeholder: "Enter your email address", class: "form-control" %>
 </div>
 
 <div class="form-group">
@@ -24,28 +27,38 @@
   <%= f.text_area :bio, placeholder: "Tell us about yourself...", class: "form-control" %>
 </div>
 
-<div class="form-group">
-  <%= f.text :name, placeholder: "Enter your email address", class: "form-control" %>
-</div>
 
-<div class="form-group">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
+
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
     <%= f.password_field :password, autocomplete: "off" %>
+    <% if @minimum_password_length %>
+      <br />
+      <em><%= @minimum_password_length %> characters minimum</em>
+    <% end %>
   </div>
-  <div class="form-group">
+
+  <div class="field">
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
+  <div class="field">
+    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.password_field :current_password, autocomplete: "off" %>
+  </div>
+
+  <div class="field">
+    <h3>Upload a picture:</h3>
+    <%= f.file_field :avatar %>
 
 
-<div class="form-group">
-  <strong>Upload a Profile Pic:</strong>
-  <%= f.file_field :avatar %>
-</div>
+  </div>
 
   <div class="actions">
     <%= f.submit "Update" %>

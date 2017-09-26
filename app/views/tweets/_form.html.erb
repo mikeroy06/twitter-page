@@ -11,14 +11,8 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :message %>
-    <%= form.text_field :message, id: :tweet_message %>
-  </div>
-
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id, id: :tweet_user_id %>
+  <div class="field"> 
+    <%= form.text_field :message, placeholder: "What's on your mind...." %>
   </div>
 
   <div class="field"> 
@@ -26,6 +20,6 @@
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Tweet!" %>
   </div>
 <% end %>
