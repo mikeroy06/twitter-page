@@ -30,14 +30,28 @@ class EpicenterController < ApplicationController
   	current_user.following.push(params[:id].to_i)
   current_user.save
 
-  redirect_to show_user_path(id: params[:id])
+  redirect_back(fallback_location: root_path)
 end
-  end
+  
 
   def unfollow
-  	current_user.following.delete(params[:id])
+  	current_user.following.delete(params[:id].to_i)
   	current_user.save
 
-  	redirect_to show_user_path(id: params[:id])
+  	redirect_back(fallback_location: root_path)
   
+end
+
+def epi_tweet
+  @tweet = Tweet.new
+  
+  @tweet.message = "#{params[:tweet][:message]}"
+  @tweet.user_id = "#{params[:tweet][:user_id].to_i}"
+  @tweet.save
+
+  
+  
+  redirect_to root_path
+end
+
 end
