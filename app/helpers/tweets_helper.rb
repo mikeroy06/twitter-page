@@ -16,9 +16,7 @@ module TweetsHelper
                 message_arr[index] = "<a href='/tag_tweets?id=#{tag.id}'>#{word}</a>"
             end
         end
-        puts "*******************"
-        puts message_arr
-        puts "********************"
+        
         tweet.message = message_arr.join(" ")
         
         return tweet

@@ -1,66 +1,55 @@
 class EpicenterController < ApplicationController
   before_action :authenticate_user!
 
-  include TweetsHelper
+include TweetsHelper
 
   def feed
-  	@following_tweets = Array.new
+    @following_tweets = []
 
-  	Tweet.all.each do |tweet|
-  		if current_user.following.include? (tweet.user_id)
+    Tweet.all.each do |tweet|
+      if current_user.following.include?(tweet.user_id) || current_user.id == tweet.user_id
 
-  			elsif 
-  			 	 current_user.id == tweet.user_id
-  					@following_tweets.push(tweet)
-  				end
-  			end
-
-  			puts "*************************"
-  			@following_tweets.each do |tweet|
-  				puts tweet.message
-  			end
-
-  			puts "*************************"
+        @following_tweets.push(tweet)
+      end 
+      
+    end 
 
   end
 
   def show_user
-  	@user = User.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def now_following
-  	current_user.following.push(params[:id].to_i)
-  current_user.save
+    current_user.following.push(params[:id].to_i)
+    current_user.save
 
-  redirect_back(fallback_location: root_path)
-end
-  
+    redirect_to show_user_path(id: params[:id])
+  end
 
   def unfollow
-  	current_user.following.delete(params[:id].to_i)
-  	current_user.save
+    current_user.following.delete(params[:id].to_i)
+    current_user.save
 
-  	redirect_back(fallback_location: root_path)
-  
+    redirect_to show_user_path(id: params[:id])
+
+  end
+
+  def epi_tweet
+    # @tweet = Tweet.new
+
+    # @tweet.message = "#{params[:tweet][:message]}"
+    # @tweet.user_id = "#{params[:tweet][:user_id].to_i}"
+    @tweet = Tweet.create(message: params[:tweet][:message], user_id: params[:tweet][:user_id].to_i)
+    @tweet = get_tagged(@tweet)
+    @tweet.save
+
+    redirect_to root_path
 end
-
-def epi_tweet
-  # @tweet = Tweet.new
-
-   # @tweet.message = "#{params[:tweet][:message]}"
-   # @tweet.user_id = "#{params[:tweet][:user_id].to_i}"
-   @tweet = Tweet.create(message: params[:tweet][:message], user_id: params[:tweet][:user_id].to_i)
-   @tweet = get_tagged(@tweet)
-   @tweet.save
-
-   redirect_to root_path
-end
-
 def tag_tweets
-  @tag = Tag.find(params[:id])
+    @tag = Tag.find(params[:id])
 
-end
-
+  end
 end
 
 

@@ -9,6 +9,7 @@
   <strong>User:</strong>
   <%= link_to @tweet.user.username, 
        show_user_path(id: @tweet.user.id) %>
+       <%= image_tag @tweet.user.avatar %>
 </p>
 
 
