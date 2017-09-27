@@ -4,6 +4,9 @@
 <p><%= @user.location %></p>
 <p><%= @user.bio %></p>
 
+<p><%= link_to "I'm following...", following_path(id: @user.id) %></p>
+<p><%= link_to "Who's following me...", followers_path(id: @user.id) %></p>
+
 <p>
   <% if current_user.following.include?(@user.id) %>
     <%= link_to "Following", unfollow_path(id: @user.id), 
@@ -25,9 +28,13 @@
 
 </p>
 
-<% @user.tweets.each do |tweet| %>
-    <div>
+<div class="well">
+    <% @user.tweets.each do |tweet| %>
+        <div class="well inner">
+        <p><em> <%= @user.name %> • <%= time_ago_in_words(tweet.created_at) if Time.now - tweet.created_at < 86400 %> <%= tweet.created_at.strftime('%b%e') if Time.now - tweet.created_at > 86400 %> </em></p>
         <p>@<%= @user.username %></p>
-	<p><%= tweet.message %></p>
-    </div>
-<% end %>
+            
+            <p><%= tweet.message.html_safe %></p>
+      </div>  
+    <% end %>
+</div>
